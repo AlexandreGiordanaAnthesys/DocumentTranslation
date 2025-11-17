@@ -79,6 +79,12 @@ namespace DocumentTranslationService.Core
             }
             try
             {
+                // Ensure the directory exists
+                string directory = Path.GetDirectoryName(filename);
+                if (!string.IsNullOrEmpty(directory) && !Directory.Exists(directory))
+                {
+                    Directory.CreateDirectory(directory);
+                }
                 File.WriteAllText(filename, GetJson(settings));
             }
             catch (IOException)
@@ -91,16 +97,9 @@ namespace DocumentTranslationService.Core
         private static string GetSettingsFilename()
         {
             string filename;
-            if (OperatingSystem.IsWindows())
-            {
-                Directory.CreateDirectory(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + Path.DirectorySeparatorChar + AppName);
-                filename = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + Path.DirectorySeparatorChar + AppName + Path.DirectorySeparatorChar + AppSettingsFileName;
-            }
-            else
-            {
-                filename = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + Path.DirectorySeparatorChar + AppName + "_" + AppSettingsFileName;
-            }
-
+            // Use the application's base directory instead of AppData
+            string baseDirectory = AppContext.BaseDirectory;
+            filename = Path.Combine(baseDirectory, AppSettingsFileName);
             return filename;
         }
 
