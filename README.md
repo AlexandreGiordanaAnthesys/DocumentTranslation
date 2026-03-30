@@ -133,3 +133,8 @@ The tool uses following Nuget packages:
 - Azure.Security.KeyVault.Secrets for reading the credentials from Azure Key Vault
 
 Our sincere thanks to the authors of these packages.
+
+## Modifications
+Cette mise à jour simplifie la manière dont les fichiers de configuration sont enregistrés. Le code n’essaie plus de construire automatiquement un chemin dans AppData ou dans les Documents.
+À la place, il utilise directement le chemin fourni à la méthode. Le dossier où doit être écrit le fichier est maintenant créé automatiquement s’il n’existe pas encore.
+Cela rend l’écriture plus fiable, réduit les risques d’erreurs et rend le comportement plus prévisible et plus facile à comprendre.
